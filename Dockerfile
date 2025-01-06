@@ -1,19 +1,12 @@
-# Build stage
-FROM golang:1.23.4-alpine AS builder
-WORKDIR /app
-COPY . .
-RUN go build -o main main.go
-RUN apk --no-cache add curl
-RUN curl -L https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.linux-amd64.tar.gz | tar xvz
+FROM golang:1.23-alpine
 
-# Run stage
-FROM alpine
 WORKDIR /app
-COPY --from=builder /app/main .
-COPY --from=builder /app/migrate.linux-amd64 ./migrate
-COPY app.env .
-COPY migrate.sh .
-COPY db/migration ./migration
 
-EXPOSE 8080
-CMD [ "/app/main" ]
+RUN go install github.com/air-verse/air@latest \
+  && go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest \
+  && go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+CMD ["air", "-c", ".air.toml"]

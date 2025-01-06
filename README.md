@@ -4,13 +4,13 @@ A boilerplate for bootstrapping a new microservice with Go and Gin with sqlc.
 
 ## Setup
 
-### Install tools
+- [Install Docker](https://www.docker.com/products/docker-desktop)
+- Run migrations: `make migrateup`
 
-- [Docker](https://www.docker.com/products/docker-desktop)
-- Use [Mise-en-place](https://mise.jdx.dev/getting-started.html) to install Go (optional) or just 
-   [download](https://golang.org/) directly
-- [Sqlc](https://github.com/kyleconroy/sqlc#installation)
+## Working in Dev
 
-### Run
-
+### Run the app
 `docker compose up`
+
+### Generate code for SQL queries
+`make sqlc`

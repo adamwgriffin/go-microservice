@@ -20,11 +20,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - '8080:8080'
+    volumes:
+      - ./:/app
     environment:
       - DATABASE_URL=postgresql://root:secret@database:5432/app_db?sslmode=disable
     depends_on:
       database:
         condition: service_healthy
-    command: sh -c "/app/migrate.sh && /app/main"
 volumes:
   data-volume:

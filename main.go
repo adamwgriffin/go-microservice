@@ -37,7 +37,7 @@ func main() {
 	defer stop()
 	connPool, err := pgxpool.New(ctx, config.DatabaseURL)
 	if err != nil {
-		log.Fatal().Err(err).Msg("cannot connect to db")
+		log.Fatal().Err(err).Msg("Cannot connect to database")
 	}
 	store := db.NewStore(connPool)
 
@@ -47,11 +47,11 @@ func main() {
 func runGinServer(config lib.Config, store db.Store) {
 	server, err := api.NewServer(config, store)
 	if err != nil {
-		log.Fatal().Err(err).Msg("cannot create server")
+		log.Fatal().Err(err).Msg("Cannot create server")
 	}
 
 	err = server.Start(config.ServerAddress)
 	if err != nil {
-		log.Fatal().Err(err).Msg("cannot start server")
+		log.Fatal().Err(err).Msg("Cannot start server")
 	}
 }
